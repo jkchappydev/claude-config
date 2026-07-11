@@ -1,0 +1,51 @@
+# ~/.claude 설정 관리용 .gitignore
+# 화이트리스트 방식: 기본적으로 전부 무시하고, 안전한 것만 명시적으로 허용한다.
+
+# 1) 일단 전부 무시
+/*
+
+# 2) 항상 추적할 파일
+!/.gitignore
+!/.mcp.json.example
+
+# 3) 공용으로 관리할 설정
+!/CLAUDE.md
+!/settings.json
+!/statusline-command.sh
+!/skills/
+!/rules/
+
+# 4) skills 안에서도 실제 서버 정보가 담긴 것은 제외
+/skills/**/page-map.md
+
+# ─────────────────────────────────────────────
+# 아래는 명시적 확인용 (이미 위 /* 에 걸리지만, 실수 방지를 위해 재선언)
+# ─────────────────────────────────────────────
+
+# 자격증명 / 인증
+/.credentials.json
+/.mcp.json
+/backups/
+/session-env/
+
+# 서버 접속 정보
+/references/
+
+# 대화 기록 · 세션 · 런타임 데이터
+/projects/
+/history.jsonl
+/sessions/
+/shell-snapshots/
+/file-history/
+/paste-cache/
+/image-cache/
+/ide/
+/daemon/
+/jobs/
+/cache/
+/mcp-needs-auth-cache.json
+/.last-cleanup
+/.last-update-result.json
+
+# 마켓플레이스 clone (설치로 복원 가능)
+/plugins/
