@@ -10,6 +10,7 @@
 
 # 3) 공용으로 관리할 설정
 !/CLAUDE.md
+!/README.md
 !/settings.json
 !/statusline-command.sh
 !/skills/
