@@ -1,4 +1,8 @@
 {
+  "permissions": {
+    "defaultMode": "default"
+  },
+  "model": "sonnet",
   "statusLine": {
     "type": "command",
     "command": "sh /Users/jeong-geunchan/.claude/statusline-command.sh"
@@ -7,5 +11,11 @@
   "tui": "fullscreen",
   "autoMemoryEnabled": true,
   "theme": "dark",
-  "model": "sonnet"
+  "autoScrollEnabled": true,
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": true
+  },
+  "env": {
+    "CLAUDE_CODE_DISABLE_MOUSE_CLICKS": "1"
+  }
 }
