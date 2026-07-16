@@ -1,4 +1,7 @@
 {
+  "env": {
+    "CLAUDE_CODE_DISABLE_MOUSE_CLICKS": "1"
+  },
   "permissions": {
     "defaultMode": "default"
   },
@@ -7,15 +10,12 @@
     "type": "command",
     "command": "sh /Users/jeong-geunchan/.claude/statusline-command.sh"
   },
-  "language": "korean",
-  "tui": "fullscreen",
-  "autoMemoryEnabled": true,
-  "theme": "dark",
-  "autoScrollEnabled": true,
   "enabledPlugins": {
     "superpowers@claude-plugins-official": true
   },
-  "env": {
-    "CLAUDE_CODE_DISABLE_MOUSE_CLICKS": "1"
-  }
+  "language": "korean",
+  "tui": "default",
+  "autoMemoryEnabled": true,
+  "theme": "dark",
+  "autoScrollEnabled": true
 }
