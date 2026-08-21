@@ -3,7 +3,7 @@
     "CLAUDE_CODE_DISABLE_MOUSE_CLICKS": "1"
   },
   "permissions": {
-    "defaultMode": "default"
+    "defaultMode": "auto"
   },
   "model": "sonnet",
   "statusLine": {
@@ -16,6 +16,7 @@
   "language": "korean",
   "tui": "default",
   "autoMemoryEnabled": true,
+  "skipDangerousModePermissionPrompt": true,
   "theme": "dark",
   "autoScrollEnabled": true
 }
