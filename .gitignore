@@ -15,6 +15,7 @@
 !/statusline-command.sh
 !/skills/
 !/rules/
+!/references/
 
 # 4) skills 안에서도 실제 서버 정보가 담긴 것은 제외
 /skills/**/page-map.md
@@ -29,8 +30,9 @@
 /backups/
 /session-env/
 
-# 서버 접속 정보
-/references/
+# 서버 접속 정보 (단, 커밋 대상 템플릿은 예외)
+/references/*
+!/references/worklog-projects.md
 
 # 대화 기록 · 세션 · 런타임 데이터
 /projects/
