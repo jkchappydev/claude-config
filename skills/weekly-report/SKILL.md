@@ -1,16 +1,16 @@
 ---
 name: weekly-report
-description: 이번 주 일일 워크로그를 모아 완료된 작업 중심의 주간 업무 보고를 작성한다.
+description: 이번 주 일일 업무 보고를 모아 완료된 작업 중심의 주간 업무 보고를 작성한다.
 ---
 
 # 주간 업무 보고
 
 ## 대상
 
-기본은 현재 프로젝트의 이번 주 월~일 워크로그다.
+기본은 현재 프로젝트의 이번 주 월~금 업무 보고다.
 
-- 신규: `docs/worklog/YYYY-MM-DD-*.md`
-- 레거시: `docs/worklog/YYYY-MM-DD.md`
+- 신규: `docs/report/YYYY-MM-DD-*.md`
+- 레거시: `docs/report/YYYY-MM-DD.md`
 
 같은 날짜에 신규 파일이 하나라도 있으면 그 날짜의 레거시 파일은 읽지 않는다.
 
@@ -22,16 +22,16 @@ description: 이번 주 일일 워크로그를 모아 완료된 작업 중심의
 
 대상 프로젝트는 `~/.claude/references/report-projects.local.md`에서 읽는다.
 
-- 경로가 없거나 `docs/worklog/`가 없는 프로젝트는 건너뛴다.
+- 경로가 없거나 `docs/report/`가 없는 프로젝트는 건너뛴다.
 - `report-projects.local.md`가 없으면 `report-projects.md`를 복사해 만들도록 안내하고 종료한다.
 - `report-projects.md`는 템플릿이므로 대상 목록으로 읽지 않는다.
 
 ## 저장
 
-- 개별 프로젝트: `docs/worklog/weekly/YYYY-Www.md`
-- 통합 보고: `~/.claude/worklog-weekly/YYYY-Www.md`
+- 개별 프로젝트: `docs/report/weekly/YYYY-Www.md`
+- 통합 보고: `~/.claude/weekly-report/YYYY-Www.md`
 
-이번 주 워크로그가 없으면 파일을 만들지 않는다.
+이번 주 업무 보고가 없으면 파일을 만들지 않는다.
 
 ## 형식
 
@@ -80,4 +80,4 @@ description: 이번 주 일일 워크로그를 모아 완료된 작업 중심의
 → 도서 삭제 기능 구현, 연관 콘텐츠가 있는 경우 삭제되지 않도록 처리
 ```
 
-기존 일일 워크로그는 수정하지 않는다.
+기존 일일 업무 보고는 수정하지 않는다.

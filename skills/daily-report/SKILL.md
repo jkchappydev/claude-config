@@ -1,13 +1,13 @@
 ---
 name: daily-report
-description: 프로젝트에서 커밋할 때 오늘 업무를 docs/worklog/YYYY-MM-DD-{사용자ID}.md에 작성하거나 갱신한다.
+description: 프로젝트에서 커밋할 때 오늘 업무를 docs/report/YYYY-MM-DD-{사용자ID}.md에 작성하거나 갱신한다.
 ---
 
 # 일일 업무 보고
 
 ## 저장
 
-`docs/worklog/YYYY-MM-DD-{사용자ID}.md`
+`docs/report/YYYY-MM-DD-{사용자ID}.md`
 
 - 사용자ID는 `git config user.email`의 `@` 앞부분을 쓴다.
 - 오늘 내 파일이 없으면 만들고, 있으면 기존 내용을 유지하면서 갱신한다.
@@ -15,26 +15,26 @@ description: 프로젝트에서 커밋할 때 오늘 업무를 docs/worklog/YYYY
 
 ## 작성자
 
-작성자명은 `git config --get worklog.name`을 그대로 쓴다. `git config user.name`과는 별개다.
+작성자명은 `git config --get report.name`을 그대로 쓴다. `git config user.name`과는 별개다.
 
-`worklog.name`이 없으면 `user.name`으로 대신하거나 이름을 추측하지 말고 작성을 중단한다.
+`report.name`이 없으면 `user.name`으로 대신하거나 이름을 추측하지 말고 작성을 중단한다.
 
 ```text
-워크로그 표시 이름이 설정되어 있지 않습니다.
+업무 보고 표시 이름이 설정되어 있지 않습니다.
 최초 1회 아래 명령어로 표시 이름을 설정해 주세요.
 
-git config --global worklog.name "홍길동"
+git config --global report.name "홍길동"
 ```
 
 ## 확인 순서
 
-1. 오늘 기존 워크로그
+1. 오늘 기존 보고 내용
 2. 해당 날짜의 내 Git commit
 3. 필요한 경우 Git diff
 
 뒤의 자료를 보고 앞의 기록을 지우지 않는다.
 
-Git에 남지 않는 운영 DB 작업, 서버 설정, 장애 대응, 테스트, 분석도 기존 워크로그에 적혀 있으면 유지한다. Git은 빠진 내용을 확인하는 보조 자료로만 쓴다.
+Git에 남지 않는 운영 DB 작업, 서버 설정, 장애 대응, 테스트, 분석도 기존 보고에 적혀 있으면 유지한다. Git은 빠진 내용을 확인하는 보조 자료로만 쓴다.
 
 ## 정리 기준
 
