@@ -3,7 +3,7 @@ name: worklog-weekly-review
 description: 이번 주 프로젝트 워크로그를 모아 주간보고를 작성한다. 개별 프로젝트에서는 현재 프로젝트를, 전역 ~/.claude에서는 등록된 모든 프로젝트를 통합해 정리한다.
 ---
 
-# 주간 워크로그 회고
+# 주간 업무 보고 작성
 
 ## 동작 방식
 
@@ -37,7 +37,7 @@ description: 이번 주 프로젝트 워크로그를 모아 주간보고를 작�
 ## 작성 형식
 
 ```markdown
-# YYYY-Www 주간보고 (YYYY-MM-DD ~ YYYY-MM-DD)
+# YYYY-Www 주간 업무 보고 (YYYY-MM-DD ~ YYYY-MM-DD)
 
 ## 완료된 작업
 

@@ -3,7 +3,7 @@ name: daily-worklog
 description: 프로젝트에서 커밋할 때마다 그날의 날짜별 업무일지(docs/worklog/YYYY-MM-DD-{사용자ID}.md)를 작성·갱신한다. Git author 식별, 커밋을 작업 단위로 묶는 것, 간결한 보고 형식을 담당한다.
 ---
 
-# 일일 워크로그 작성
+# 일일 업무 보고 작성
 
 ## 파일 경로
 
@@ -120,7 +120,7 @@ Git commit이 없다고 해서 워크로그에 이미 적힌 업무(운영 DB �
 ## 7. 작성 형식
 
 ```markdown
-# YYYY-MM-DD 일일보고
+# YYYY-MM-DD 일일 업무 보고
 
 작성자: {이름}
 
