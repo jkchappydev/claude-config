@@ -1,13 +1,13 @@
 ---
 name: weekly-report
-description: 이번 주 일일 업무 보고를 모아 완료된 작업 중심의 주간 업무 보고를 작성한다.
+description: 등록된 여러 프로젝트의 일일 업무 보고를 모아 완료된 작업 중심의 전역 주간 업무 보고 하나를 작성한다.
 ---
 
 # 주간 업무 보고
 
 ## 대상
 
-기본은 현재 프로젝트의 이번 주 월~금 업무 보고다.
+`~/.claude/references/report-projects.local.md`에 등록된 프로젝트들의 이번 주 월~금 업무 보고를 모은다.
 
 - 신규: `docs/report/YYYY-MM-DD-*.md`
 - 레거시: `docs/report/YYYY-MM-DD.md`
@@ -16,22 +16,23 @@ description: 이번 주 일일 업무 보고를 모아 완료된 작업 중심�
 
 신규 파일은 상단의 `작성자: {이름}`을 읽어 작업 앞에 `[이름]`을 붙인다. 레거시 파일은 작성자 정보가 없으므로 이름을 붙이지 않는다.
 
-## 통합 모드
-
-사용자가 "통합 회고", "여러 프로젝트"를 요청했거나 현재 위치가 `~/.claude`면 통합 모드로 실행한다. `~/.claude`에서는 항상 통합 모드다.
-
-대상 프로젝트는 `~/.claude/references/report-projects.local.md`에서 읽는다.
-
 - 경로가 없거나 `docs/report/`가 없는 프로젝트는 건너뛴다.
 - `report-projects.local.md`가 없으면 `report-projects.md`를 복사해 만들도록 안내하고 종료한다.
 - `report-projects.md`는 템플릿이므로 대상 목록으로 읽지 않는다.
 
 ## 저장
 
-- 개별 프로젝트: `docs/report/weekly/YYYY-Www.md`
-- 통합 보고: `~/.claude/weekly-report/YYYY-Www.md`
+`~/.claude/weekly-report/YYYY-Www.md` 하나만 만든다. 프로젝트별 주간 업무 보고는 만들지 않는다.
 
 이번 주 업무 보고가 없으면 파일을 만들지 않는다.
+
+## 완료 날짜
+
+각 완료 작업 앞에 `[YYYY-MM-DD]`로 완료 날짜를 붙인다.
+
+- 날짜는 그 작업이 적힌 일일 업무 보고의 날짜를 그대로 쓴다. Git commit 시각 등으로 다시 추측하지 않는다.
+- 여러 날짜의 작업을 하나로 통합했으면, 통합에 포함된 날짜 중 가장 마지막 날짜를 완료일로 쓴다.
+- 날짜를 맞추려고 서로 다른 독립된 작업을 합치지 않는다.
 
 ## 형식
 
@@ -41,7 +42,7 @@ description: 이번 주 일일 업무 보고를 모아 완료된 작업 중심�
 ## 완료된 작업
 
 ### 프로젝트명
-- [이름] 작업 내용
+- [YYYY-MM-DD] [이름] 작업 내용
 - ...
 ```
 
