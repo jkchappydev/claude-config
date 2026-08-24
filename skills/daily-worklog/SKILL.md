@@ -11,12 +11,27 @@ description: 프로젝트에서 커밋할 때마다 그날의 날짜별 업무�
 
 ## 1. 작성자 판별 (파일 생성 시 1회)
 
-별도의 매핑 파일을 두지 않고 Git 설정 자체를 기준으로 삼는다.
+중앙 매핑 파일을 두지 않고 각 사용자의 Git 설정을 기준으로 삼는다.
 
-1. `git config user.email` / `git config user.name`으로 현재 Git 사용자 정보를 확인한다.
-2. **사용자ID**(파일명용): 이메일의 `@` 앞부분을 쓴다. (`jkchappy@eco.co.kr` → `jkchappy`)
-3. **표시 이름**(작성자): `user.name` 값을 그대로 쓴다. 이름을 임의로 추측하지 않는다.
-4. `user.name`이 비어 있으면 이메일을 그대로 표시 이름으로 쓴다.
+1. **사용자ID**(파일명용): `git config user.email`의 `@` 앞부분을 쓴다. (`jkchappy@eco.co.kr` → `jkchappy`)
+2. **표시 이름**(작성자): `git config --get worklog.name` 값을 쓴다. 이 값이 있으면 반드시 그대로 사용한다.
+
+`worklog.name`은 워크로그 표시 전용 설정이라 `user.name`(커밋 author)과 별개다. 예: `user.name`이 `jkchappy`여도 `worklog.name`이 `정근찬`이면 작성자는 `정근찬`.
+
+### worklog.name이 없으면 — 워크로그를 만들지 말고 안내부터
+
+`user.name`을 조용히 대신 쓰지 않는다. `user.name`은 `jkchappy`, `devhong` 같은 계정명일 수 있어 그대로 보고서에 들어가면 안 된다. 이름을 임의로 추측하지도 않는다.
+
+워크로그 작성을 멈추고 아래를 안내한다:
+
+```
+워크로그 표시 이름이 설정되어 있지 않습니다.
+최초 1회 아래 명령어로 표시 이름을 설정해 주세요.
+
+git config --global worklog.name "홍길동"
+```
+
+한 번 등록하면 그 PC의 모든 프로젝트에 적용된다. 사용자가 추가되거나 빠져도 중앙 목록을 고치거나 커밋할 일은 없다.
 
 ## 2. 정보 출처 우선순위
 
