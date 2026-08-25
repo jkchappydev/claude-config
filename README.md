@@ -28,6 +28,17 @@ cp .mcp.json.example .mcp.json
 # .mcp.json 열어서 ${NOTION_TOKEN} 자리에 실제 토큰 입력
 ```
 
+## 업무 보고(daily-report / weekly-report) 설정
+
+일일/주간 업무 보고는 프로젝트 Git 저장소가 아니라 `~/.claude` 전역에만 쌓인다 (`~/.claude/daily-report/`, `~/.claude/weekly-report/`). 새 기기에서 필요한 준비는 아래뿐이다.
+
+1. 이 저장소를 클론하면 `skills/daily-report/`, `skills/weekly-report/`가 함께 세팅된다.
+2. `CLAUDE.md`에 이미 업무 보고 규칙이 포함되어 있다.
+3. 표시 이름을 한 번 등록한다: `git config --global report.name "홍길동"`
+4. 각 프로젝트에서 `git config user.email`이 올바른지 확인한다 (파일명의 사용자ID로 쓰인다).
+
+프로젝트 경로를 별도로 등록하는 과정은 없다 — `weekly-report`가 `~/.claude/daily-report/` 아래를 직접 훑는다.
+
 ## 제외된 것 (git에 올라가지 않음)
 
 `.gitignore` 에 명시한 것 외에는 전부 기본 제외된다.

@@ -1,17 +1,32 @@
 ---
 name: daily-report
-description: 프로젝트에서 커밋할 때 오늘 업무를 docs/report/YYYY-MM-DD-{사용자ID}.md에 작성하거나 갱신한다.
+description: 프로젝트에서 커밋할 때 오늘 업무를 ~/.claude/daily-report/{프로젝트명}/YYYY-MM-DD-{사용자ID}.md에 작성하거나 갱신한다.
 ---
 
 # 일일 업무 보고
 
 ## 저장
 
-`docs/report/YYYY-MM-DD-{사용자ID}.md`
+`~/.claude/daily-report/{프로젝트명}/YYYY-MM-DD-{사용자ID}.md`
+
+예: `~/.claude/daily-report/thebooklist-user/2026-08-24-honggildong.md`
+
+업무 보고는 프로젝트 Git 저장소 안에 두지 않는다. 프로젝트에는 `docs/report/` 같은 폴더를 만들지 않는다.
 
 - 사용자ID는 `git config user.email`의 `@` 앞부분을 쓴다.
 - 오늘 내 파일이 없으면 만들고, 있으면 기존 내용을 유지하면서 갱신한다.
 - 지난 날짜 파일은 수정하지 않는다.
+
+## 프로젝트명 결정
+
+- 현재 작업 중인 Git 저장소의 **루트 디렉터리명**을 프로젝트명으로 쓴다 (`git rev-parse --show-toplevel`로 루트를 찾고, 그 경로의 마지막 디렉터리명을 사용).
+- 하위 디렉터리에서 실행하고 있어도 반드시 루트 기준으로 판단해서 같은 프로젝트명으로 저장되게 한다.
+- 현재 위치가 Git 저장소가 아니어서 루트를 찾을 수 없으면, 프로젝트명을 임의로 만들지 말고 사용자에게 알린다:
+
+```text
+현재 위치가 Git 저장소가 아니라 프로젝트를 식별할 수 없습니다.
+Git 저장소 안에서 다시 요청해 주세요.
+```
 
 ## 작성자
 

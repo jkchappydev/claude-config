@@ -1,24 +1,31 @@
 ---
 name: weekly-report
-description: 등록된 여러 프로젝트의 일일 업무 보고를 모아 완료된 작업 중심의 전역 주간 업무 보고 하나를 작성한다.
+description: ~/.claude/daily-report/ 아래 프로젝트별 일일 업무 보고를 모아 완료된 작업 중심의 전역 주간 업무 보고 하나를 작성한다.
 ---
 
 # 주간 업무 보고
 
 ## 대상
 
-`~/.claude/references/report-projects.local.md`에 등록된 프로젝트들의 이번 주 월~금 업무 보고를 모은다.
+`~/.claude/daily-report/` 아래의 프로젝트별 폴더를 전부 훑어서 이번 주 월~금 업무 보고를 모은다. 프로젝트 디렉터리를 직접 찾아가지 않는다.
 
-- 신규: `docs/report/YYYY-MM-DD-*.md`
-- 레거시: `docs/report/YYYY-MM-DD.md`
+```text
+~/.claude/daily-report/
+├── project-a/
+│   ├── 2026-08-18-user1.md
+│   └── 2026-08-19-user1.md
+└── project-b/
+    └── 2026-08-20-user1.md
+```
+
+- 신규: `YYYY-MM-DD-*.md`
+- 레거시: `YYYY-MM-DD.md` (작성자 접미사 없는 옛 형식)
 
 같은 날짜에 신규 파일이 하나라도 있으면 그 날짜의 레거시 파일은 읽지 않는다.
 
 신규 파일은 상단의 `작성자: {이름}`을 읽어 작업 앞에 `[이름]`을 붙인다. 레거시 파일은 작성자 정보가 없으므로 이름을 붙이지 않는다.
 
-- 경로가 없거나 `docs/report/`가 없는 프로젝트는 건너뛴다.
-- `report-projects.local.md`가 없으면 `report-projects.md`를 복사해 만들도록 안내하고 종료한다.
-- `report-projects.md`는 템플릿이므로 대상 목록으로 읽지 않는다.
+`~/.claude/daily-report/`가 아직 없거나 비어 있으면, 이번 주 대상 업무 보고가 없다는 뜻이므로 파일을 만들지 않는다.
 
 ## 저장
 
