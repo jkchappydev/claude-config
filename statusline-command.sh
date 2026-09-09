@@ -1,39 +1,45 @@
 #!/bin/sh
-input=$(cat)
+# 상태줄 입력(JSON)을 stdin 으로 받아 모델명 · 컨텍스트 사용률 · 예상 비용을 한 줄로 출력
+# jq 대신 node 사용 (Windows/macOS 공통으로 별도 설치 없이 동작)
+exec node -e '
+let raw = "";
+process.stdin.on("data", (chunk) => { raw += chunk; });
+process.stdin.on("end", () => {
+  let data = {};
+  try { data = JSON.parse(raw); } catch (e) { /* 입력이 비어있거나 깨진 경우 기본값 사용 */ }
 
-# Model display name
-model=$(echo "$input" | jq -r '.model.display_name // "Unknown"')
+  const model = (data.model && data.model.display_name) || "Unknown";
+  const modelId = (data.model && data.model.id) || "";
+  const ctx = data.context_window || {};
 
-# Context usage
-used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
-context_str=""
-if [ -n "$used_pct" ]; then
-  context_str=$(printf "Context: %.0f%% used" "$used_pct")
-else
-  context_str="Context: -"
-fi
+  // 컨텍스트 사용률
+  const usedPct = ctx.used_percentage;
+  const contextStr =
+    typeof usedPct === "number"
+      ? "Context: " + Math.round(usedPct) + "% used"
+      : "Context: -";
 
-# Cost estimation based on model pricing (USD per 1M tokens)
-# Prices: input / output
-model_id=$(echo "$input" | jq -r '.model.id // ""')
-case "$model_id" in
-  *claude-opus-4*)       input_price=15.0;  output_price=75.0  ;;
-  *claude-sonnet-4*)     input_price=3.0;   output_price=15.0  ;;
-  *claude-haiku-3-5*)    input_price=0.8;   output_price=4.0   ;;
-  *claude-haiku*)        input_price=0.25;  output_price=1.25  ;;
-  *claude-sonnet-3-7*)   input_price=3.0;   output_price=15.0  ;;
-  *claude-sonnet-3-5*)   input_price=3.0;   output_price=15.0  ;;
-  *claude-opus-3*)       input_price=15.0;  output_price=75.0  ;;
-  *)                     input_price=3.0;   output_price=15.0  ;;
-esac
+  // 모델별 100만 토큰당 단가 (입력 / 출력, USD)
+  const priceTable = [
+    [/claude-opus-4/,     15.0, 75.0],
+    [/claude-sonnet-4/,    3.0, 15.0],
+    [/claude-haiku-3-5/,   0.8,  4.0],
+    [/claude-haiku/,      0.25,  1.25],
+    [/claude-sonnet-3-7/,  3.0, 15.0],
+    [/claude-sonnet-3-5/,  3.0, 15.0],
+    [/claude-opus-3/,     15.0, 75.0],
+  ];
+  let [inPrice, outPrice] = [3.0, 15.0];
+  for (const [pattern, i, o] of priceTable) {
+    if (pattern.test(modelId)) { inPrice = i; outPrice = o; break; }
+  }
 
-total_input=$(echo "$input" | jq -r '.context_window.total_input_tokens // 0')
-total_output=$(echo "$input" | jq -r '.context_window.total_output_tokens // 0')
+  // 누적 토큰 기준 예상 비용
+  const totalIn = ctx.total_input_tokens || 0;
+  const totalOut = ctx.total_output_tokens || 0;
+  const cost = (totalIn / 1e6) * inPrice + (totalOut / 1e6) * outPrice;
+  const costStr = cost < 0.01 ? "$" + cost.toFixed(4) : "$" + cost.toFixed(2);
 
-cost=$(echo "$total_input $total_output $input_price $output_price" | awk '{
-  cost = ($1 / 1000000 * $3) + ($2 / 1000000 * $4)
-  if (cost < 0.01) printf "$%.4f", cost
-  else printf "$%.2f", cost
-}')
-
-printf "🤖 %s | 📊 %s | 💰 %s" "$model" "$context_str" "$cost"
+  process.stdout.write(`🤖 ${model} | 📊 ${contextStr} | 💰 ${costStr}`);
+});
+'

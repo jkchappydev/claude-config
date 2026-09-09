@@ -6,7 +6,6 @@
 
 # 2) 항상 추적할 파일
 !/.gitignore
-!/.mcp.json.example
 
 # 3) 공용으로 관리할 설정
 !/CLAUDE.md
@@ -17,8 +16,12 @@
 !/rules/
 !/references/
 
-# 4) skills 안에서도 실제 서버 정보가 담긴 것은 제외
+# 4) 화이트리스트 안에서도 이 기기 전용인 것은 제외
 /skills/**/page-map.md
+/skills/daily-report/
+/skills/weekly-report/
+/skills/REPORT_SKILL_README.md
+/rules/*.local.md
 
 # ─────────────────────────────────────────────
 # 아래는 명시적 확인용 (이미 위 /* 에 걸리지만, 실수 방지를 위해 재선언)
