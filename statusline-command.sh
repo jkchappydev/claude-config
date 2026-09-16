@@ -20,9 +20,16 @@ process.stdin.on("end", () => {
       : "Context: -";
 
   // 모델별 100만 토큰당 단가 (입력 / 출력, USD)
+  // 위에서부터 순서대로 매칭되므로 구체적인 패턴을 먼저 둔다
   const priceTable = [
+    [/claude-(fable|mythos)-5/, 10.0, 50.0],
+    [/claude-opus-5/,      5.0, 25.0],
+    [/claude-opus-4-[678]/, 5.0, 25.0],
     [/claude-opus-4/,     15.0, 75.0],
+    [/claude-sonnet-5/,    2.0, 10.0],
+    [/claude-sonnet-4-6/,  3.0, 15.0],
     [/claude-sonnet-4/,    3.0, 15.0],
+    [/claude-haiku-4-5/,   1.0,  5.0],
     [/claude-haiku-3-5/,   0.8,  4.0],
     [/claude-haiku/,      0.25,  1.25],
     [/claude-sonnet-3-7/,  3.0, 15.0],
