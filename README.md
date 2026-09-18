@@ -1,58 +1,77 @@
-# claude-config
+# ai-config
 
-개인용 Claude Code 전역 설정(`~/.claude`) 관리 저장소.
+Claude Code(`~/.claude`)와 Codex(`~/.codex`)의 개인 전역 설정을 한 저장소에서 관리한다.
 
-여러 기기(Mac / Windows)에서 Claude Code를 동일한 설정으로 쓰기 위해,
-`~/.claude` 디렉토리 중 재사용 가능한 설정 파일만 골라 버전관리한다.
+여러 기기(Mac / Windows)에서 두 도구를 **같은 지침·같은 설정**으로 쓰는 것이 목적이다.
+설정 원본은 이 저장소에만 두고, 실제 경로에는 심볼릭 링크를 걸어 각 도구가 원래 자리에서 읽게 한다.
 
-## 공유 설정 (git 추적 · 모든 기기 공통)
+## 구조
 
-| 경로 | 내용 |
+```
+~/ai-config/
+  claude/
+    CLAUDE.md              # Claude Code 전역 지침 → codex/AGENTS.md 를 import 만 함
+    settings.json          # model, permissions, statusLine, hooks 등
+    statusline-command.sh  # 상태줄 스크립트
+    rules/                 # 항상 로드되는 추가 규칙
+    skills/                # 전역 스킬
+  codex/
+    AGENTS.md              # ★ 공통 개발 지침 본문 (두 도구가 함께 보는 단일 원본)
+  install.sh               # 심볼릭 링크 생성
+```
+
+링크는 아래와 같이 걸린다.
+
+| 실제 경로 (도구가 읽는 위치) | 저장소 원본 |
 |---|---|
-| `C:\Users\JungGeunChan\.claude\CLAUDE.md` | 모든 기기·프로젝트에 적용되는 지침. 언어 설정, 코딩 스타일, 아키텍처, 코드 주석 스타일, 커밋 규칙, Git 워크트리 워크플로우, 애플리케이션 실행/종료 정책, 기기 전용 설정을 어디에 둘지 |
-| `C:\Users\JungGeunChan\.claude\README.md` | 이 문서. 저장소 구조와 파일별 역할 |
-| `C:\Users\JungGeunChan\.claude\settings.json` | model, theme, language, permissions, statusLine, hooks, 플러그인 등 Claude Code 동작 설정 |
-| `C:\Users\JungGeunChan\.claude\statusline-command.sh` | 상태줄 스크립트. 표준입력 JSON을 node로 파싱해 모델명·컨텍스트 사용률·예상 비용을 한 줄로 출력 |
-| `C:\Users\JungGeunChan\.claude\.gitignore` | 무엇을 공유하고 무엇을 기기 전용으로 둘지 결정. 화이트리스트 방식 |
-| `C:\Users\JungGeunChan\.claude\rules\context7.md` | 라이브러리·프레임워크·CLI 문서는 Context7 MCP로 조회하라는 규칙 |
-| `C:\Users\JungGeunChan\.claude\skills\context7-mcp\SKILL.md` | Context7으로 라이브러리 문서를 찾는 절차 |
-| `C:\Users\JungGeunChan\.claude\skills\jenkins-build-diagnose\SKILL.md` | Jenkins 빌드/배포 실패 원인 진단. SSH로 접속해 빌드 결과와 콘솔 로그 조회 (조회 전용) |
-| `C:\Users\JungGeunChan\.claude\skills\remote-server-check\SKILL.md` | 원격 서버 기동 여부·헬스체크·최근 에러 로그 확인 (조회 전용) |
+| `~/.claude/CLAUDE.md` | `claude/CLAUDE.md` |
+| `~/.claude/settings.json` | `claude/settings.json` |
+| `~/.claude/statusline-command.sh` | `claude/statusline-command.sh` |
+| `~/.claude/rules` | `claude/rules` |
+| `~/.claude/skills` | `claude/skills` |
+| `~/.codex/AGENTS.md` | `codex/AGENTS.md` |
 
-## 이 기기 전용 (git 제외 · 다른 기기로 넘어가지 않음)
+## 지침은 AGENTS.md 한 곳에만 쓴다
 
-| 경로 | 내용 |
-|---|---|
-| `C:\Users\JungGeunChan\.claude\rules\report.local.md` | 업무 보고 규칙. 커밋 시 업무 보고 연동, 일일/주간 보고 작성 원칙, 저장 경로. 매 세션 자동 로드됨 |
-| `C:\Users\JungGeunChan\.claude\skills\daily-report\SKILL.md` | 일일 업무 보고 작성 절차 (작성자 식별, 작업 단위 정리, 정보 출처 우선순위) |
-| `C:\Users\JungGeunChan\.claude\skills\weekly-report\SKILL.md` | 일일 보고를 취합해 주간 업무 보고를 만드는 절차 |
-| `C:\Users\JungGeunChan\.claude\skills\REPORT_SKILL_README.md` | 위 두 보고 스킬의 설계 배경과 상세 규칙 |
-| `C:\Users\JungGeunChan\.claude\references\jenkins-server.md` | Jenkins 서버 SSH 접속 정보(IP, 사용자, 키 경로, 호스트키 지문)와 job별 파이프라인 방식. `jenkins-build-diagnose`가 읽음 |
-| `C:\Users\JungGeunChan\.claude\references\lifebooks-servers.md` | 인생서가 서버 SSH 접속 정보와 헬스체크 정보(컨테이너명, 로그 경로). `remote-server-check`가 읽음 |
+Codex는 `~/.codex/AGENTS.md`를 전역 지침으로 직접 읽고, Claude Code는 `~/.claude/CLAUDE.md`의
+`@~/ai-config/codex/AGENTS.md` import를 통해 같은 파일을 읽는다. 따라서 **공통 규칙은 반드시
+`codex/AGENTS.md`에 쓴다.** `claude/CLAUDE.md`에 직접 쓴 내용은 Codex가 보지 못한다.
 
-## 데이터 (설정 아님)
+`CLAUDE.md`의 import 경로를 상대경로(`@../...`)로 바꾸면 안 된다 — `~/.claude/CLAUDE.md`가
+심볼릭 링크이므로 기준 디렉터리가 달라질 수 있다. 홈 기준 경로(`@~/...`)를 유지한다.
 
-| 경로 | 내용 |
-|---|---|
-| `C:\Users\JungGeunChan\Desktop\daily-report\` | 날짜별 일일 업무 보고 (`YYYY-MM-DD-{사용자ID}.md`) |
-| `C:\Users\JungGeunChan\Desktop\weekly-report\` | 주간 업무 보고 (`YYYY-Www.md`) |
+프로젝트 단위 지침은 여전히 도구별로 갈린다. Claude Code는 프로젝트의 `CLAUDE.md`,
+Codex는 프로젝트의 `AGENTS.md`를 읽는다.
 
 ## 새 기기에서 세팅하기
 
 ```bash
-cd ~
-git clone <이 저장소 주소> .claude
+git clone https://github.com/jkchappydev/ai-config.git ~/ai-config
+cd ~/ai-config
+./install.sh
 ```
 
-클론하면 공유 설정만 들어온다. 위 "이 기기 전용" 항목은 없는 상태이므로 필요한 것만 직접 만든다.
+`install.sh`는 여러 번 실행해도 안전하다. 링크 자리에 기존 실제 파일이 있으면
+`~/.ai-config-backup-<시각>/`으로 옮긴 뒤 링크로 교체한다.
 
-- `references/`가 비어 있으면 `remote-server-check`, `jenkins-build-diagnose`가 접속 정보를 찾지 못한다.
-- 업무 보고를 그 기기에서도 쓰려면 `rules/*.local.md`와 보고 스킬을 따로 만들어야 한다.
+Windows(Git Bash)에서는 심볼릭 링크 생성에 권한이 필요하다. 개발자 모드를 켜거나,
+관리자 터미널에서 아래처럼 실행한다.
 
-## Claude Code가 관리하는 것 (커밋하지 않음)
+```bash
+MSYS=winsymlinks:nativestrict ./install.sh
+```
 
-- `.credentials.json` — 인증 토큰
-- `projects/`, `history.jsonl`, `sessions/` — 대화 기록 및 세션 데이터
-- `backups/` — 설정 자동 백업
-- `plugins/` — 마켓플레이스 clone (재설치로 복원 가능)
-- 그 외 로컬 캐시/런타임 파일 (`cache/`, `shell-snapshots/`, `file-history/`, `paste-cache/` 등)
+## 기기 전용으로 두는 것 (git 제외)
+
+| 경로 | 내용 |
+|---|---|
+| `~/.claude/rules/*.local.md` | 그 기기에서만 적용할 규칙. 매 세션 자동 로드됨 |
+| `~/.claude/references/` | 서버 SSH 접속 정보 등. `remote-server-check`가 읽음 |
+| `~/.claude/skills/synced/` | Claude Code가 만드는 동기화 캐시 |
+| `~/.codex/config.toml` | 모델·프로젝트 신뢰 설정. 기기별 경로가 들어가서 공유하지 않음 |
+
+## 도구가 관리하므로 추적하지 않는 것
+
+`~/.claude` 아래의 `.credentials.json`, `projects/`, `history.jsonl`, `sessions/`,
+`plugins/`, `backups/`, 각종 캐시는 링크 대상이 아니므로 애초에 저장소에 들어오지 않는다.
+`~/.codex`의 `auth.json`, `*.sqlite`, `logs/`도 마찬가지다.
